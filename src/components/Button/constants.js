@@ -1,0 +1,1 @@
+export const SMALL_SIZED_BUTTON = 'small'
