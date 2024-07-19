@@ -9,28 +9,36 @@ import {
 } from "./styles";
 import { SANTAS_GRAY } from "../../commons/constants/colors";
 
-function ProjectTable({ projectData }) {
+function ProjectTable({ projectData, onDelete }) {
   return (
     <TableContainerStyled>
       <div>
         <Grid container>
           <Grid item xs={7}>
-            <Typography color={SANTAS_GRAY} fontWeight="bold">Título</Typography>
+            <Typography color={SANTAS_GRAY} fontWeight="bold">
+              Título
+            </Typography>
           </Grid>
           <ValueColumnStyled item xs={3}>
-            <Typography color={SANTAS_GRAY} fontWeight="bold">Custo total</Typography>
+            <Typography color={SANTAS_GRAY} fontWeight="bold">
+              Custo total
+            </Typography>
           </ValueColumnStyled>
           <ActionColumnStyled item xs={2}>
-            <Typography color={SANTAS_GRAY} fontWeight="bold">Ações</Typography>
+            <Typography color={SANTAS_GRAY} fontWeight="bold">
+              Ações
+            </Typography>
           </ActionColumnStyled>
         </Grid>
       </div>
-      {projectData?.map(({ name, description, value }) => (
+      {projectData?.map(({ id, title, description, value }) => (
         <TableItem
-          key={name}
-          name={name}
+          key={id}
+          title={title}
           description={description}
           value={value}
+          onDelete={onDelete}
+          projectId={id}
         />
       ))}
     </TableContainerStyled>
@@ -40,11 +48,12 @@ function ProjectTable({ projectData }) {
 ProjectTable.propTypes = {
   projectData: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       value: PropTypes.number.isRequired,
     })
   ).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default ProjectTable;

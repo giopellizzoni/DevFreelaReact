@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ReactComponent as EditProjectBG } from "../../../assets/images/bg-edit-project.svg";
 import { ROUTE_PATHS } from "../../../commons/constants/routes-path";
 import Button from "../../../components/Button";
@@ -9,20 +9,38 @@ import Layout from "../../../containers/Layout";
 import Input from "../../../components/Form/Input";
 import { INITIAL_VALUES } from "../constants";
 import { validateForm } from "../schemes";
+import ProjectServices from "../../../services/projects";
 
 function EditProject() {
   const navigate = useNavigate();
+  const [selectedProject, setSelectedProject] = useState();
+  const { idProject } = useParams();
 
-  const onSubmit = () => {
-    navigate(ROUTE_PATHS.projects);
+  const onSubmit = (values) => {
+    ProjectServices.updateProject(idProject, { ...values, value: parseInt(values.value) })
+      .then(() => {
+        navigate(ROUTE_PATHS.projects);
+      })
+      .catch((error) => alert(error.message));
   };
+
+
+  useEffect(() => {
+    ProjectServices.getProjectsById(idProject)
+      .then(({ data }) => {
+        setSelectedProject(data);
+      })
+      .catch((error) => console.log("Erro na requisição: ", error));
+      
+  }, [idProject]);
 
   return (
     <Layout image={EditProjectBG}>
       <Formik
         onSubmit={onSubmit}
-        initialValues={INITIAL_VALUES}
+        initialValues={selectedProject ?? INITIAL_VALUES}
         validationSchema={validateForm}
+        enableReinitialize
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
@@ -46,8 +64,22 @@ function EditProject() {
               </Grid>
             </div>
             <div className="w-50 mb-3">
-              <Button className="py-2" size="large" fullWidth type="submit">
+              <Button
+                className="py-2 mb-3"
+                size="large"
+                fullWidth
+                type="submit"
+              >
                 Cadastrar
+              </Button>
+              <Button
+                className="py-2"
+                size="large"
+                fullWidth
+                variant="text"
+                onClick={() => navigate(ROUTE_PATHS.projects)}
+              >
+                Voltar
               </Button>
             </div>
           </Form>

@@ -1,5 +1,5 @@
 export const INITIAL_VALUES = {
   title: "",
-  value: undefined,
+  value: 0,
   description: "",
 };

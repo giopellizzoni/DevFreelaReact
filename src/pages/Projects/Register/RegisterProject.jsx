@@ -9,12 +9,17 @@ import Layout from "../../../containers/Layout";
 import Input from "../../../components/Form/Input";
 import { INITIAL_VALUES } from "../constants";
 import { validateForm } from "../schemes";
+import ProjectServices from "../../../services/projects";
 
 function RegisterProject() {
   const navigate = useNavigate();
 
-  const onSubmit = () => {
-    navigate(ROUTE_PATHS.projects);
+  const onSubmit = (values) => {
+    ProjectServices.saveProject({ ...values, value: parseInt(values.value) })
+      .then(() => {
+        navigate(ROUTE_PATHS.projects);
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
@@ -46,8 +51,22 @@ function RegisterProject() {
               </Grid>
             </div>
             <div className="w-50 mb-3">
-              <Button className="py-2" size="large" fullWidth type="submit">
+              <Button
+                className="py-2 mb-3"
+                size="large"
+                fullWidth
+                type="submit"
+              >
                 Cadastrar
+              </Button>
+              <Button
+                className="py-2"
+                size="large"
+                fullWidth
+                variant="text"
+                onClick={() => navigate(ROUTE_PATHS.projects)}
+              >
+                Voltar
               </Button>
             </div>
           </Form>
