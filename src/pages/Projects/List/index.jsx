@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PageTitle from "../../components/PageTitle/PageTitle";
-import ProjectTable from "../../containers/ProjectTable/ProjectTable";
+import PageTitle from "../../../components/PageTitle/PageTitle";
+import ProjectTable from "../../../containers/ProjectTable/ProjectTable";
 import { PROJECT_DATA } from "./constants";
-import { ROUTE_PATHS } from "../../commons/constants/routes-path";
+import { ROUTE_PATHS } from "../../../commons/constants/routes-path";
 
 function App() {
   const navigate = useNavigate();
