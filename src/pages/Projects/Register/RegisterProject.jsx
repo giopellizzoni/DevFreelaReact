@@ -1,44 +1,56 @@
+import { Grid, Typography } from "@mui/material";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_PATHS } from "../../../commons/constants/routes-path";
-import Layout from "../../../containers/Layout";
 import { ReactComponent as RegisterProjectBG } from "../../../assets/images/bg-register-project.svg";
+import { ROUTE_PATHS } from "../../../commons/constants/routes-path";
 import Button from "../../../components/Button";
-import { Typography, TextField } from "@mui/material";
+import Layout from "../../../containers/Layout";
+import Input from "../../components/Form/Input";
+import { INITIAL_VALUES } from "../constants";
+import { validateForm } from "../schemes";
 
 function RegisterProject() {
   const navigate = useNavigate();
+
+  const onSubmit = () => {
+    navigate(ROUTE_PATHS.projects);
+  };
+
   return (
     <Layout image={RegisterProjectBG}>
-      <div className="w-75 mb-3">
-        <Typography variant="h2" fontWeight="bold">
-          Vamos cadastrar seu novo projeto
-        </Typography>
-      </div>
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={INITIAL_VALUES}
+        validationSchema={validateForm}
+      >
+        {({ handleSubmit }) => <Form onSubmit={handleSubmit}></Form>}
 
-      <div className="w-50 mb-3">
-        <TextField
-          className="w-100 mb-2"
-          label="Titulo"
-          variant="standard"
-        />
-        <TextField
-          className="w-100 mb-2"
-          label="Custo Total"
-          variant="standard"
-        />
-        <TextField className="w-100 mb-2" label="Descrição" variant="standard" />
-      </div>
-      <div className="w-50 mb-3">
-        <Button
-          className="py-2"
-          size="large"
-          fullWidth
-          onClick={() => navigate(ROUTE_PATHS.projects)}
-        >
-          Cadastrar
-        </Button>
-      </div>
+        <div className="w-75 mb-3">
+          <Typography variant="h2" fontWeight="bold">
+            Vamos cadastrar seu novo projeto
+          </Typography>
+        </div>
+
+        <div className="w-50 mb-3">
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Input name="title" label="Título" />
+            </Grid>
+            <Grid item xs={12}>
+              <Input name="value" label="Custo Total" />
+            </Grid>
+            <Grid item xs={12}>
+              <Input name="description" label="Descrição" />
+            </Grid>
+          </Grid>
+        </div>
+        <div className="w-50 mb-3">
+          <Button className="py-2" size="large" fullWidth type="submit">
+            Cadastrar
+          </Button>
+        </div>
+      </Formik>
     </Layout>
   );
 }
