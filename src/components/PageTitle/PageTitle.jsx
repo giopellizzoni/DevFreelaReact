@@ -1,14 +1,17 @@
 import React from "react";
+import { Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import Button from "../Button";
-import "./styles.css";
+import { PageTitleContainerStyled } from "./styles";
 
 function PageTitle({ title, actionButton }) {
   return (
-    <div className="page-title-container">
-      <h1>{title}</h1>
-      {actionButton && <Button label={actionButton.label} size="small" onClick={actionButton.action} />}
-    </div>
+    <PageTitleContainerStyled>
+      <Typography variant="h4" fontWeight="bold">{title}</Typography>
+      {actionButton && (
+        <Button onClick={actionButton.action}>{actionButton.label}</Button>
+      )}
+    </PageTitleContainerStyled>
   );
 }
 
